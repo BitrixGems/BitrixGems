@@ -1,0 +1,4 @@
+Small changes in administrative section of module
+New type of gems: BaseComponentGem 
+New static method BitrixGems::getGem
+
