@@ -7,6 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 IncludeModuleLangFile(__FILE__);
+IncludeModuleLangFile($_SERVER["DOCUMENT_ROOT"].'/bitrix/modules/iv.bitrixgems/admin/adminOptionPageDefault.php');
 if( empty( $aOptions ) ){
 	return CAdminMessage::ShowMessage(array( 'TYPE'=>'ERROR','MESSAGE' => GetMessage('ERROR_PARAMS'), 'HTML' => true ));
 }
