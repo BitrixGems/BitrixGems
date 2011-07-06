@@ -1,5 +1,7 @@
 <?
+if( !CModule::IncludeModule( 'iv.bitrixgems' ) ) return array();// Фикс страннобага битрикса, возникающего при удалении модуля.
 IncludeModuleLangFile(__FILE__);
+IncludeModuleLangFile($_SERVER["DOCUMENT_ROOT"].'/bitrix/modules/iv.bitrixgems/admin/menu.php');
 
 if($APPLICATION->GetGroupRight("iv.bitrixgems")!="D")
 {

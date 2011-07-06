@@ -2,6 +2,7 @@
 require( $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php" );
 if( $APPLICATION->GetGroupRight("iv.bitrixgems") != 'W' ) LocalRedirect( '/bitrix/admin/' );
 IncludeModuleLangFile(__FILE__);
+IncludeModuleLangFile($_SERVER["DOCUMENT_ROOT"].'/bitrix/modules/iv.bitrixgems/admin/bitrixgems_manager.php');
 $oGemManager = BitrixGems::getInstance();
 if( $oGemManager == null ){
 	require( $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php" );

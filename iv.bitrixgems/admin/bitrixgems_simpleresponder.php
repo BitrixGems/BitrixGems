@@ -2,6 +2,7 @@
 require( $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php" );
 require( $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/iv.bitrixgems/classes/general/BitrixGemsHelper.class.php" );
 IncludeModuleLangFile(__FILE__);
+IncludeModuleLangFile($_SERVER["DOCUMENT_ROOT"].'/bitrix/modules/iv.bitrixgems/admin/bitrixgems_simpleresponder.php');
 if( !isset( $_GET['gem'] ) ) {
 	require( $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php" );
 	$adminPage->ShowSectionIndex("menu_bitrixGems_Gems", "bitrixGems");
