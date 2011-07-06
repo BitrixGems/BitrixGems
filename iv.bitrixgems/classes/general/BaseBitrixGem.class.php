@@ -164,6 +164,35 @@ class BaseBitrixGem{
 	 */
 	public function processAjaxRequest( $aOptions ){}
 
+	//=============DATA
+	
+	/**
+	 * Сохранение произвольных данных (отечественный NoSQL :))
+	 * 
+	 * @param уникальный идентификатор данных
+	 * @param произвольные данные
+	 * @return bool 
+	 */
+	protected function saveData( $mID, $mData ){
+		return $this->oGemsManager->saveData( $this->getCode(), $mID, $mData );		
+	} 
+	
+	/**
+	 * Возвращает сохраненные данные 
+	 * @param $mID
+	 */
+	protected function getData( $mID ){
+		return $this->oGemsManager->getData( $this->getCode(), $mID );
+	}
+	
+	/**
+	 * Удаление данных
+	 * @param unknown_type $mID
+	 */
+	protected function removeData( $mID ){
+		return $this->oGemsManager->removeData( $this->getCode(), $mID );
+	}
+	
 	//=============OPTIONS
 
 	/**

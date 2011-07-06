@@ -15,6 +15,8 @@ class BitrixGems{
 
 	protected $aLoadedGems = array();
 
+	protected $sDataTableName = 'bg_bitrixgems_custom_data';
+	
 	protected $aGems = array();
 	protected $aGemsInfo = array();
 	protected static $oInstance = null;
@@ -142,6 +144,27 @@ class BitrixGems{
 		$aResult = $this->aOptions[ 'ACCESS' ][ $sGemName ];
 		if( !is_array( $aResult ) ) $aResult = array();
 		return $aResult;
+	}
+	
+	//============Отечественный NoSQL
+	
+	public function saveData( $sGem, $mID, $mData ){
+		global $DB;
+		$mData = $DB->Query('REPLACE INTO `'.$this->sDataTableName.'` SET gem="'.$DB->ForSQL( $sGem ).'", id="'.$DB->ForSQL( $mID ).'", data="'.$DB->ForSQL( serialize( $mData ) ).'" ');
+		return true;
+	}
+	
+	public function removeData( $sGem, $mID ){
+		global $DB;
+		$mData = $DB->Query('DELETE FROM `'.$this->sDataTableName.'` WHERE gem="'.$DB->ForSQL( $sGem ).'" AND id="'.$DB->ForSQL( $mID ).'"');
+		return true;
+	}
+	
+	public function getData( $sGem, $mID ){
+		global $DB;
+		$mData = $DB->Query('SELECT data FROM `'.$this->sDataTableName.'` WHERE gem="'.$DB->ForSQL( $sGem ).'" AND id="'.$DB->ForSQL( $mID ).'"')->Fetch();
+		if( !$mData ) return null;
+		return unserialize( $mData['data'] );
 	}
 
 	//============Ивенты гемов
@@ -348,14 +371,7 @@ class BitrixGems{
 	}
 	
 	public function getInstalledGems( $bReturnGems = false ){
-		/**
-		 * @TODO: Убрать в следующем релизе модуля! Апдейтер писать в падлу :)
-		 */
-		if( !file_exists( $this->getGemsConfigFile() ) ){
-			$mGems = explode( ',', COption::GetOptionString( 'bitrixGem', $this->sInstalledGemsOptionKey ) );
-			$this->setInstalledGems( array_flip( $mGems ) );
-		}
-
+	
 		$this->aOptions = include( $this->getGemsConfigFile() );
 		if( !isset( $this->aOptions['GEMS'] ) ) $this->aOptions['GEMS'] = $this->aOptions;
 		$mResult = $this->aOptions['GEMS'];
@@ -636,7 +652,11 @@ class BitrixGems{
 		return $sToFolder.$sGemName.'/';
 	}
 
-	//==========Charset encoding shit
+	//==========Charset encoding shit 
+	/**
+	 * Я что, пьяный был? Что вообщзе делает это дерьмо в классе?
+	 * @TODO выкинуть в либы нафиг.
+	 */
 
 	protected function convertGemCharset( $mFile, $bToSite = true ){
 		if( strtoupper(LANG_CHARSET) != 'UTF-8' ){			

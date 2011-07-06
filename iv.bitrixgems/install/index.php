@@ -53,15 +53,42 @@ class iv_bitrixgems extends CModule{
 		return true;
 	}
 
+	function InstallDB(){
+		
+		global $DB;
+		
+		$DB->Query( 'DROP TABLE IF EXISTS `bg_bitrixgems_custom_data`' );		
+		$sCreateTableSQL = 'CREATE TABLE `bg_bitrixgems_custom_data` (
+			`gem` VARCHAR( 100 ) NOT NULL ,
+			`id` VARCHAR( 100 ) NOT NULL ,
+			`data` TEXT NOT NULL ,
+			PRIMARY KEY (  `gem` ,  `id` )
+		) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;';
+		/*if( strtoupper(LANG_CHARSET) == 'UTF-8' ){
+			$sCreateTable .= 
+		}else{
+			
+		}*/
+		
+		$DB->Query( $sCreateTableSQL );
+		
+	}
+	
+	function UnInstallDB(){
+		global $DB;
+		$DB->Query( 'DROP TABLE IF EXISTS `bg_bitrixgems_custom_data`' );
+	}
+	
 
 	function DoInstall(){
 		global $DB, $DOCUMENT_ROOT, $APPLICATION;
 		$this->InstallFiles();
+		$this->InstallDB();
 		RegisterModule($this->MODULE_ID);
 		RegisterModuleDependences( 'main', 'OnPageStart', $this->MODULE_ID );
 	}
 
-	function UnInstallBricks(){
+	function UnInstallGems(){
 		return true;
 	}
 
@@ -70,7 +97,8 @@ class iv_bitrixgems extends CModule{
 		/**
 		 * СДЕЛАТЬ uninstall установленных gems'ов!
 		 */
-		$this->UnInstallBricks();
+		$this->UnInstallGems();
+		$this->UnInstallDB();
 		$this->UnInstallFiles();
 		COption::RemoveOption($this->MODULE_ID);
 		UnRegisterModule($this->MODULE_ID);
