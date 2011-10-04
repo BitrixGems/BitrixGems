@@ -48,7 +48,7 @@ if( $REQUEST_METHOD=="POST" && check_bitrix_sessid() && isset( $_POST['Gem'] )){
 		if( isset( $_POST['compress'] ) || isset( $_POST['compress_x'] )){
 			$sMessage = $oGemManager->archiveGem( $_POST['Gem'] );
 			$sMessage = GetMessage( 'GEM_COMPRESS_SUCCESS', array( '#GEM_LINK#' => str_replace( $_SERVER['DOCUMENT_ROOT'], '' ,dirname($sMessage) ).'/'.basename( $sMessage ), '#GEM_FILENAME#' => basename( $sMessage ) ) );
-			
+
 			unset( $_GET['mode'], $_REQUEST['mode'] );
 		}
 
@@ -86,9 +86,8 @@ if( $REQUEST_METHOD=="POST" && check_bitrix_sessid() && isset( $_POST['feedback'
 			'SITE_NAME' 	=> COption::GetOptionString( 'main', 'site_name' ),
 		),
 	);
-	/**
-	 * ��� ������ �� ������!
-	 */
+
+
 	mail(
 		'gems@bitrix-modules.ru',
 		'BITRIXGEMS. Feedback.',
@@ -241,9 +240,7 @@ foreach( $aTabs as $aTab ){
 
     $rsData = new CDBResult();
 
-	/**
-	 * ������. �� ������� ������� ���� �����. ���� ����� �������� ������ ��������. �� �� ��� �������.
-	 */
+
 	$aFilteredCat = array();
 	if( $filter_by_gem ){
 		foreach( $aCatalog['CATALOG'][ $aTab['DIV'] ]['ITEMS'] as $aGem ){
@@ -261,9 +258,6 @@ foreach( $aTabs as $aTab ){
 		}
 	}
 
-	/**
-	 * ����������. ��. ������� ����. ���� ���� ����� �� �������� ������, � �� �����������. �� ��� � ����, ��� ��� ������ ��������� :)
-	 */
 	if( !empty( $aFilteredCat ) ){
 
 		if( !function_exists( 'array_orderby' ) ){
@@ -283,7 +277,7 @@ foreach( $aTabs as $aTab ){
 				return array_pop($args);
 			}
 		}
-		// ��� ����� � ����������� � ����...
+
 		$mSortBy = SORT_ASC;
 		if( strtolower($GLOBALS[$oSort->ord_name]) == "desc" ){
 			$mSortBy = SORT_DESC;
@@ -310,7 +304,7 @@ foreach( $aTabs as $aTab ){
 		$row->AddViewField("PICTURE", '<div style="text-align:center;"><img src="'.$f_PICTURE.'" alt="'.$f_NAME.'" title="'.$f_NAME.'"/></div>' );
 
 		$row->AddViewField("DESCRIPTION", nl2br($f_DESCRIPTION) );
-		
+
 		$row->AddViewField(
 			"REQUIREMENTS",
 			'<font style="color:'.(( $bCanBeInstalled )?'green':'red').'">'.
@@ -403,7 +397,7 @@ foreach( $aTabs as $aTab ){
 	);
 	$lAdmin->AddAdminContextMenu($aContext);
 	$lAdmin->CheckListMode();
-	
+
 	$aTables[ $aTab['DIV'] ] = $lAdmin;
 }
 require( $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php" );
@@ -424,6 +418,7 @@ if( isset( $_SESSION['GEMSMESSAGE'] ) && ( $_SESSION['GEMSMESSAGE'] != null )){
 	CAdminMessage::ShowNote( $_SESSION['GEMSMESSAGE'] );
 	unset( $_SESSION['GEMSMESSAGE'] );
 }
+CAdminMessage::ShowMessage(array( 'TYPE'=>'OK','MESSAGE' => GetMessage('DISCLAIMER'), 'HTML' => true ));
 ?>
 <script type="text/javascript">
 	/*Dirty antivirushack: form_tbl_dump*/
